@@ -9,5 +9,5 @@ import lombok.ToString;
 public class Contract {
 	private int id;
     private String name; 
-
+ 
 }

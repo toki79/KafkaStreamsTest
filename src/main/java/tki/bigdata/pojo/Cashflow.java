@@ -10,5 +10,5 @@ public class Cashflow {
 	private float amount;
 	private int contractId;
     private Contract contract;
-        
+     
 }

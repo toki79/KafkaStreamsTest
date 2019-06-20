@@ -18,12 +18,12 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.integration.channel.AbstractMessageChannel;
 
-import kafka.network.Processor;
+
 import tki.bigdata.pojo.Cashflow;
 
 @EnableBinding(CashflowService.CashflowSink.class)
 public class CashflowService {
-
+ 
 	@StreamListener(CashflowSink.T1_CASHFLOW_IN)
 	@SendTo(CashflowSink.T2_CASHFLOW_OUT)
 	public synchronized Cashflow receive1(String message) {

@@ -10,5 +10,5 @@ public class MyValueContainer {
    public MyValueContainer(Object value1, Object value2) {
 	   this.value1 = value1;
 	   this.value2 = value2;
-   }
+   } 
 }

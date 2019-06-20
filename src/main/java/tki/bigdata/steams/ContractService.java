@@ -17,9 +17,9 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.messaging.support.MessageBuilder;
 
-import kafka.network.Processor;
-import tki.bigdata.pojo.Cashflow;
 import tki.bigdata.pojo.Contract;
+
+
 
 @EnableBinding(ContractService.ContractSink.class)
 public class ContractService {
@@ -38,7 +38,7 @@ public class ContractService {
 			public Message<?> preSend(Message<?> message, MessageChannel channel) {
 				return MessageBuilder.fromMessage(message)
 						.setHeader(KafkaHeaders.MESSAGE_KEY, (((Contract) message.getPayload()).getId()+"").getBytes()).build();						
-			}
+			} 
 
 		});
 		return args -> {

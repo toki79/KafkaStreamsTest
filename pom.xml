@@ -11,7 +11,7 @@
 	<groupId>tki.bigdata</groupId>
 	<artifactId>steams</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>steams</name>
+	<name>streams</name> 
 	<description>Demo project for Spring Boot</description>
 
 	<properties>

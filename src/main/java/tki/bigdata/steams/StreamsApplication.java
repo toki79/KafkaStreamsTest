@@ -26,7 +26,7 @@ public class StreamsApplication {
 	
 	public static void main(String[] args) {        
 		SpringApplication.run(StreamsApplication.class, args);
-	}
+	} 
 //	
 //
 //	
