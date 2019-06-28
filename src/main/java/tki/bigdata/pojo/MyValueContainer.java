@@ -4,11 +4,17 @@ import lombok.Data;
 
 @Data
 public class MyValueContainer {
-   private Object value1;
-   private Object value2;
+   private Cashflow value1;
+   private Contract value2;
    
-   public MyValueContainer(Object value1, Object value2) {
+   public MyValueContainer() {
+
+	}
+   
+   public MyValueContainer(Cashflow value1, Contract value2) {
 	   this.value1 = value1;
 	   this.value2 = value2;
-   } 
+   }
+
+
 }

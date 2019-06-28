@@ -27,43 +27,5 @@ public class StreamsApplication {
 	public static void main(String[] args) {        
 		SpringApplication.run(StreamsApplication.class, args);
 	} 
-//	
-//
-//	
-//	@StreamListener
-//	public void process(@Input("topic2") KStream<String, Contract> contracts) {
-//		System.out.println("Found contracts");
-//	}
-//
-//	public interface ContractSink extends Sink {
-//		@Input("topic2")
-//	    KStream<?, ?> inputStream();
-//    }
-//	
-//	/**
-//	 * get sample data from topic, create objects and send them
-//	 * @param s
-//	 * @return
-//	 */
-//	@StreamListener(Processor.INPUT)
-//	@SendTo(Processor.OUTPUT)
-//	public Object processStg1(String s) {
-//		String arr[] = s.split(";");
-//		if (arr[0].equalsIgnoreCase("Contract")) {
-//			Contract c = new Contract();
-//			c.setId(Integer.parseInt(arr[1]));
-//			c.setName(arr[2]);
-//			return c;
-//		}
-//		else if (arr[0].equalsIgnoreCase("Cashflow")) {
-//			Cashflow cf = new Cashflow();
-//			cf.setContractId(Integer.parseInt(arr[1]));
-//			cf.setDate(arr[2]);
-//			cf.setAmount(Float.parseFloat(arr[3]));
-//			return cf;
-//		}
-//		
-//		return ("ERROR: could not parse type");
-//	}
 }
 
