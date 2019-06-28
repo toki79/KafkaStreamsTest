@@ -12,6 +12,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.integration.annotation.InboundChannelAdapter;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -20,6 +21,7 @@ import tki.bigdata.pojo.Cashflow;
 import tki.bigdata.pojo.Contract;
 
 @SpringBootApplication
+@ComponentScan(basePackages = {"tki.bigdata.tier1", "tki.bigdata.tier2", "tki.bigdata.tier3"})
 public class StreamsApplication {
 	@Autowired
 	private KafkaTemplate<String, Object> template;

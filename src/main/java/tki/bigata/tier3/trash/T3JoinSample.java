@@ -1,4 +1,4 @@
-package tki.bigdata.steams;
+package tki.bigata.tier3.trash;
 
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.kstream.Joined;
@@ -18,11 +18,11 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import tki.bigdata.pojo.Cashflow;
 import tki.bigdata.pojo.Contract;
 import tki.bigdata.pojo.MyValueContainer;
-import tki.bigdata.steams.ContractService.ContractSink;
+import tki.bigdata.tier1.T1ContractService.ContractSink;
 
 
-@EnableBinding({JoinSample.KStreamKTableBinding.class, Sink.class})
-public class JoinSample {
+@EnableBinding({ T3JoinSample.KStreamKTableBinding.class, Sink.class })
+public class T3JoinSample  {
 
 	@StreamListener
 	@SendTo("t3_joined_out")
@@ -39,11 +39,13 @@ public class JoinSample {
 	
 	@StreamListener("input")
 	public void readFromKStreamProcessorOutput(MyValueContainer myValueContainer) {
+		System.out.println("******************");
+		System.out.println("Tier3: At JoinSample Sink");
+		System.out.println("******************");
 		System.out.println("Joined Cashflow/Contract details");
 		System.out.println("---------------------------------");
 		System.out.println(myValueContainer.getValue1());
-		System.out.println(myValueContainer.getValue2());
-		System.out.println("got a MyValueContainer");
+		System.out.println(myValueContainer.getValue2());		
 		System.out.println("---------------------------------");
 	}
 	

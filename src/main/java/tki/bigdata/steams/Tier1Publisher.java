@@ -14,7 +14,7 @@ import tki.bigdata.pojo.Cashflow;
 import tki.bigdata.pojo.Category;
 import tki.bigdata.pojo.Contract;
 
-public class DataPublisher {
+public class Tier1Publisher {
 	private static String BOOTSTRAP_SERVER = "tobi0179.westeurope.cloudapp.azure.com:9092";
 
 	public static void main(String[] args) {
@@ -25,19 +25,15 @@ public class DataPublisher {
 		props1.put(ProducerConfig.LINGER_MS_CONFIG, 1);
 		props1.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
 		props1.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
-		props1.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+		props1.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
 
-		DefaultKafkaProducerFactory<Integer, Contract> pf1 = new DefaultKafkaProducerFactory<>(props1);
-		KafkaTemplate<Integer, Contract> template1 = new KafkaTemplate<>(pf1, true);
-		template1.setDefaultTopic("tier2.contract.d");
+		DefaultKafkaProducerFactory<Integer, String> pf1 = new DefaultKafkaProducerFactory<>(props1);
+		KafkaTemplate<Integer, String> template1 = new KafkaTemplate<>(pf1, true);
+		template1.setDefaultTopic("tier1.contract.d");
 
 
-		Contract contract = new Contract();
-		contract.setId(1);
-		contract.setName("contract abc");
-
-		template1.sendDefault(1, contract);
+		template1.sendDefault(1, "Contract;1;abc");
 		
 		// ----------------------------------------------------------------------
 
@@ -48,28 +44,17 @@ public class DataPublisher {
 				props.put(ProducerConfig.LINGER_MS_CONFIG, 1);
 				props.put(ProducerConfig.BUFFER_MEMORY_CONFIG, 33554432);
 				props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class);
-				props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+				props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
 
-				DefaultKafkaProducerFactory<Integer, Category> pfCategory = new DefaultKafkaProducerFactory<>(props);
-				KafkaTemplate<Integer, Category> templateCategory = new KafkaTemplate<>(pfCategory, true);
-				templateCategory.setDefaultTopic("tier2.category.d");
+				DefaultKafkaProducerFactory<Integer, String> pfCategory = new DefaultKafkaProducerFactory<>(props);
+				KafkaTemplate<Integer, String> templateCategory = new KafkaTemplate<>(pfCategory, true);
+				templateCategory.setDefaultTopic("tier1.category.d");
 
-				Category category = new Category();
-				category.setId(1);
-				category.setName("Auto");
-				category.setDescription("Alles rund ums Auto");
-				category.setRegex(".*TANK.*");
-			
-				templateCategory.sendDefault(1, category);
 				
-				category = new Category();
-				category.setId(2);
-				category.setName("Immo");
-				category.setDescription("Alles rund um Immobilien");
-				category.setRegex(".*HAUSG.*");
 			
-				templateCategory.sendDefault(1, category);
+				templateCategory.sendDefault(1, "Category;1;Auto;Bla;.*TANK.*");
+				templateCategory.sendDefault(1, "Category;1;Immo;Bla;.*HAUSG.*");
 
 				
 		// ----------------------------------------------------------------------
@@ -84,16 +69,12 @@ public class DataPublisher {
 		props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
 
 
-		DefaultKafkaProducerFactory<Integer, Cashflow> pf = new DefaultKafkaProducerFactory<>(props);
-		KafkaTemplate<Integer, Cashflow> template = new KafkaTemplate<>(pf, true);
-		template.setDefaultTopic("tier2.cashflow.d");
+		DefaultKafkaProducerFactory<Integer, String> pf = new DefaultKafkaProducerFactory<>(props);
+		KafkaTemplate<Integer, String> template = new KafkaTemplate<>(pf, true);
+		template.setDefaultTopic("tier1.cashflow.d");
 
 
-		Cashflow cashflow = new Cashflow();
-		cashflow.setDate("current date-time");
-		cashflow.setAmount(100.50f);
-		cashflow.setContractId(1);
-		template.sendDefault(1, cashflow);
+		template.sendDefault(1, "Cashflow;1;20190602;2.5");
 	}
 
 }

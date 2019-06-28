@@ -1,4 +1,4 @@
-package tki.bigdata.steams;
+package tki.bigdata.tier1;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationRunner;
@@ -21,8 +21,8 @@ import tki.bigdata.pojo.Contract;
 
 
 
-@EnableBinding(ContractService.ContractSink.class)
-public class ContractService {
+@EnableBinding(T1ContractService.ContractSink.class)
+public class T1ContractService {
 	
 	/**
 	 * Ein Intercepter, um den Key für die Kafka Message zu setzen
@@ -49,7 +49,7 @@ public class ContractService {
 	@SendTo(ContractSink.T2_CONTRACT_OUT)
 	public synchronized Contract receive1(String message) {
 		System.out.println("******************");
-		System.out.println("At Sink1");
+		System.out.println("Tier 1: At Contract Sink1");
 		System.out.println("******************");
 		System.out.println("Received message " + message);
 		
@@ -64,24 +64,16 @@ public class ContractService {
 		return null;
 	}
 
-	@StreamListener(ContractSink.T2_CONTRACT_IN)
-	public synchronized void receive2(Contract contract, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] key) {
-		System.out.println("******************");
-		System.out.println("At Sink2");
-		System.out.println("******************");
-		System.out.println("Received contract " + contract + ", key:" + new String(key));
-	}
+	
 
 	public interface ContractSink {
 		String T1_CONTRACT_IN = "t1_contract_in";
-		String T2_CONTRACT_IN = "t2_contract_in";
+		
 		String T1_CONTRACT_OUT = "t1_contract_out";
         String T2_CONTRACT_OUT = "t2_contract_out";
 		
 		@Input(T1_CONTRACT_IN)
 		SubscribableChannel t1_contract_in();
-		@Input(T2_CONTRACT_IN)
-		SubscribableChannel t2_contract_in();
 		
 		@Output(T1_CONTRACT_OUT)
 		SubscribableChannel t1_contract_out();
