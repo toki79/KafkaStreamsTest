@@ -43,8 +43,30 @@ public class T1CashflowService {
 		}
 
 		return null;
-
 	}
+	
+//	// TODO
+//	@StreamListener(CashflowSink.T2_CASHFLOW_IN)
+//	@SendTo(CashflowSink.T2_CASHFLOW_CATEGORYKEYED_OUT)
+//	public synchronized Cashflow applyCategoryKeys(String message) {
+//		System.out.println("******************");
+//		System.out.println("Tier 2: At Cashflow Sink1");
+//		System.out.println("will apply category key");
+//		System.out.println("******************");
+//		System.out.println("Received message " + message);
+//
+//		String arr[] = message.split(";");
+//		if (arr[0].equalsIgnoreCase("Cashflow")) {
+//			Cashflow cf = new Cashflow();
+//			cf.setContractId(Integer.parseInt(arr[1]));
+//			cf.setDate(arr[2]);
+//			cf.setAmount(Float.parseFloat(arr[3]));
+//
+//			return cf;
+//		}
+//
+//		return null;
+//	}
 
 	/**
 	 * Ein Intercepter, um den Key für die Kafka Message zu setzen
@@ -71,13 +93,14 @@ public class T1CashflowService {
 
 	public interface CashflowSink {
 		String T1_CASHFLOW_IN = "t1_cashflow_in";
-//		String T2_CASHFLOW_IN = "t2_cashflow_in";
+		String T2_CASHFLOW_IN = "t2_cashflow_in";
 		String T1_CASHFLOW_OUT = "t1_cashflow_out";
 		String T2_CASHFLOW_OUT = "t2_cashflow_out";
+		String T2_CASHFLOW_CATEGORYKEYED_OUT = "t2_cashflow_categorykeyed_out";
 
 		@Input(T1_CASHFLOW_IN)
 		SubscribableChannel t1_cashflow_in();
-
+//
 //		@Input(T2_CASHFLOW_IN)
 //		SubscribableChannel t2_cashflow_in();
 
@@ -86,5 +109,8 @@ public class T1CashflowService {
 
 		@Output(T2_CASHFLOW_OUT)
 		SubscribableChannel t2_cashflow_out();
+		
+		@Output(T2_CASHFLOW_CATEGORYKEYED_OUT)
+		SubscribableChannel t2_cashflow_categorykeyed_out();
 	}
 }

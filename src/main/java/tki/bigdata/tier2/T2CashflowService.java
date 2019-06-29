@@ -26,7 +26,7 @@ public class T2CashflowService {
 	@StreamListener(CashflowSink.T2_CASHFLOW_IN)
 	public synchronized void receive2(Cashflow cashflow, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] key) {
 		System.out.println("******************");
-		System.out.println("Tier 2: At Contract Sink2");
+		System.out.println("Tier 2: At Cashflow Sink2");
 		System.out.println("******************");
 		System.out.println("Received cashflow " + cashflow + ", key:" + new String(key));
 	}
