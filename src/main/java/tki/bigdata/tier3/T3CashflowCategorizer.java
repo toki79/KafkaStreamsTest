@@ -10,7 +10,10 @@ import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.kafka.support.serializer.JsonSerde;
+import org.springframework.messaging.SubscribableChannel;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 import tki.bigdata.pojo.Cashflow;
@@ -18,13 +21,14 @@ import tki.bigdata.pojo.Category;
 import tki.bigdata.pojo.Contract;
 import tki.bigdata.pojo.MyValueContainer;
 import tki.bigdata.tier1.T1ContractService.ContractSink;
+import tki.bigdata.tier2.T2CashflowService.CashflowSink;
 
 @EnableBinding({ T3CashflowCategorizer.KStreamKTableBinding.class, Sink.class })
 public class T3CashflowCategorizer {
 
 	@StreamListener
 	@SendTo("t3_cashflow_categorizer_categorized_cashflow_out")
-	public KStream<Integer, Cashflow> process(
+	public KStream<Integer, Cashflow> processCategorizeCashflow (
 			@Input("t2_cashflow_categorizer_cashflow_stream_in") KStream<Integer, Cashflow> cashflowStream,
 			@Input("t2_cashflow_categorizer_category_stream_in") KTable<Integer, Category> categoryTable) {
 
@@ -37,8 +41,10 @@ public class T3CashflowCategorizer {
 		}, Joined.with(Serdes.Integer(), new JsonSerde<>(Cashflow.class), new JsonSerde<>(Category.class)));
 	}
 
-	@StreamListener("input")
-	public void readFromKStreamProcessorOutput(Cashflow cashflow) {
+
+	
+	@StreamListener("t3_cashflow_categorizer_categorized_cashflow_in")
+	public synchronized void receive3(Cashflow cashflow, @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) byte[] key) {
 		System.out.println("******************");
 		System.out.println("Tier3: At categorized cashflow Sink");
 		System.out.println("******************");
@@ -59,7 +65,8 @@ public class T3CashflowCategorizer {
 		KStream<?, ?> t3_cashflow_categorizer_categorized_cashflow_out();
 
 		@Input("t3_cashflow_categorizer_categorized_cashflow_in")
-		KStream<?, ?> t3_cashflow_categorizer_categorized_cashflow_in();
+		SubscribableChannel t3_cashflow_categorizer_categorized_cashflow_in();
+		
 	}
 	
 
